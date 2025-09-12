@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
+
 #include "BallisfactionGameState.generated.h"
 
 UCLASS()

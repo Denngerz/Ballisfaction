@@ -2,20 +2,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AttributeSet.h"
 #include "AbilitySystemComponent.h"
-#include "HealthSet.generated.h"
+#include "BallisfactionAttributeSet.h"
 
-#define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
-GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
-GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
-GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
-GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+#include "HealthSet.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnOutOfHealth);
 
 UCLASS()
-class BALLISFACTIONPROJECT_API UHealthSet : public UAttributeSet
+class BALLISFACTIONPROJECT_API UHealthSet : public UBallisfactionAttributeSet
 {
 	GENERATED_BODY()
 	
