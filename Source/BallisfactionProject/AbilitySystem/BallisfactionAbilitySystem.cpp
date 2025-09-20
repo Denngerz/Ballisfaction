@@ -18,8 +18,12 @@ void UBallisfactionAbilitySystem::AbilityInputTagPressed(FGameplayTag InputTag)
 			}
 			
 			TArray<UGameplayAbility*> Instances = Spec->GetAbilityInstances();
-			const FGameplayAbilityActivationInfo& ActivationInfo = Instances.Last()->GetCurrentActivationInfoRef();
-			InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputPressed, Spec->Handle, ActivationInfo.GetActivationPredictionKey());
+
+			if (!Instances.IsEmpty())
+			{
+				const FGameplayAbilityActivationInfo& ActivationInfo = Instances.Last()->GetCurrentActivationInfoRef();
+				InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputPressed, Spec->Handle, ActivationInfo.GetActivationPredictionKey());
+			}
 		}
 	}
 }
@@ -33,11 +37,14 @@ void UBallisfactionAbilitySystem::AbilityInputTagReleased(FGameplayTag InputTag)
 	{
 		if (Spec->Ability->AbilityTags.HasTagExact(InputTag))
 		{
-			Spec->InputPressed = false;
+			if (Spec->IsActive())
+			{
+				Spec->InputPressed = false;
 			
-			TArray<UGameplayAbility*> Instances = Spec->GetAbilityInstances();
-			const FGameplayAbilityActivationInfo& ActivationInfo = Instances.Last()->GetCurrentActivationInfoRef();
-			InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputReleased, Spec->Handle, ActivationInfo.GetActivationPredictionKey());
+				TArray<UGameplayAbility*> Instances = Spec->GetAbilityInstances();
+				const FGameplayAbilityActivationInfo& ActivationInfo = Instances.Last()->GetCurrentActivationInfoRef();
+				InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputReleased, Spec->Handle, ActivationInfo.GetActivationPredictionKey());
+			}
 		}
 	}
 }
