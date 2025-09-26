@@ -16,4 +16,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void AbilityInputTagReleased(FGameplayTag InputTag);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Abilities")
+	FDataTableRowHandle AbilitySetHandle;
 };
