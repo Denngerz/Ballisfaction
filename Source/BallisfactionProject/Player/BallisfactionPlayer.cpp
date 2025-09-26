@@ -31,17 +31,25 @@ bool ABallisfactionPlayer::InitializeUnitAbilities()
 		if (!AbilityInfo)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Ability row was null in %s"), *GetNameSafe(PlayerStats->UsedAbilities));
-			continue;
+			return false;
 		}
 
 		if (!AbilityInfo->AbilityDefinition)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("AbilityDefinition is null in AbilityRow of %s"), *GetNameSafe(PlayerStats->UsedAbilities));
-			continue;
+			return false;
 		}
 		
 		FGameplayAbilitySpec AbilitySpec(AbilityInfo->AbilityDefinition, 1);
-		BallisfactionAbilitySystemComponent->GiveAbility(AbilitySpec);
+
+		if (AbilityInfo->IsStatusAbility)
+		{
+			BallisfactionAbilitySystemComponent->GiveAbilityAndActivateOnce(AbilitySpec);
+		}
+		else
+		{
+			BallisfactionAbilitySystemComponent->GiveAbility(AbilitySpec);
+		}
 	}
 
 	return true;

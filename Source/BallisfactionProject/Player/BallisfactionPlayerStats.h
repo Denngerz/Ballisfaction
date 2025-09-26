@@ -13,6 +13,12 @@ struct FAbilityRow : public FTableRowBase
 public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameplayAbility> AbilityDefinition;
+
+	UPROPERTY(EditDefaultsOnly)
+	bool IsStatusAbility;
+
+	UPROPERTY(EditDefaultsOnly)
+	FText Description;
 };
 
 UCLASS()
