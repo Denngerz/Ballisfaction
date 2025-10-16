@@ -7,6 +7,7 @@
 
 class UBallisfactionAbilitySystem;
 class UBallisfactionPlayerStats;
+class UBallisfactionHealthComponent;
 
 UCLASS()
 class BALLISFACTIONPROJECT_API ABallisfactionPlayer : public APawn
@@ -27,4 +28,7 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ballisfaction|Player Stats", Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UBallisfactionPlayerStats> PlayerStats;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ballisfaction|Health Component", Meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UBallisfactionHealthComponent> HealthComponent;
 };

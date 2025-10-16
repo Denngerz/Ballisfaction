@@ -1,5 +1,6 @@
 
 #include "BallisfactionAbilitySystem.h"
+#include "Atributes/HealthSet.h"
 
 void UBallisfactionAbilitySystem::AbilityInputTagPressed(FGameplayTag InputTag)
 {
@@ -40,7 +41,7 @@ void UBallisfactionAbilitySystem::AbilityInputTagReleased(FGameplayTag InputTag)
 			if (Spec->IsActive())
 			{
 				Spec->InputPressed = false;
-			
+				
 				TArray<UGameplayAbility*> Instances = Spec->GetAbilityInstances();
 				const FGameplayAbilityActivationInfo& ActivationInfo = Instances.Last()->GetCurrentActivationInfoRef();
 				InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputReleased, Spec->Handle, ActivationInfo.GetActivationPredictionKey());
