@@ -1,8 +1,10 @@
 
 #include "BallisfactionPlayer.h"
-
 #include "BallisfactionPlayerStats.h"
+#include "BallisfactionProject/BallisfactionHealthComponent.h"
+#include "BallisfactionProject/BallisfactionStaminaComponent.h"
 #include "BallisfactionProject/AbilitySystem/BallisfactionAbilitySystem.h"
+#include "BallisfactionProject/AbilitySystem/Atributes/HealthSet.h"
 
 ABallisfactionPlayer::ABallisfactionPlayer()
 {
@@ -10,6 +12,9 @@ ABallisfactionPlayer::ABallisfactionPlayer()
 
 	BallisfactionAbilitySystemComponent = CreateDefaultSubobject<UBallisfactionAbilitySystem>(TEXT("AbilitySystemComponent"));
 
+	HealthComponent = CreateDefaultSubobject<UBallisfactionHealthComponent>(TEXT("HealthComponent"));
+
+	StaminaComponent = CreateDefaultSubobject<UBallisfactionStaminaComponent>(TEXT("StaminaComponent"));
 }
 
 bool ABallisfactionPlayer::InitializeUnitAbilities()
@@ -22,7 +27,7 @@ bool ABallisfactionPlayer::InitializeUnitAbilities()
 	{
 		return false;
 	}
-
+	
 	TArray<FAbilityRow*> AbilitiesInfos;
 	PlayerStats->UsedAbilities->GetAllRows(TEXT("Player Abilities"), AbilitiesInfos);
 
@@ -53,6 +58,11 @@ bool ABallisfactionPlayer::InitializeUnitAbilities()
 	}
 
 	return true;
+}
+
+UAbilitySystemComponent* ABallisfactionPlayer::GetAbilitySystemComponent() const
+{
+	return BallisfactionAbilitySystemComponent;
 }
 
 void ABallisfactionPlayer::BeginPlay()
