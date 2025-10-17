@@ -26,9 +26,18 @@ void UBallisfactionHealthComponent::BeginPlay()
 	InitASCHealth();
 }
 
-void UBallisfactionHealthComponent::OnHealthChanged(const FOnAttributeChangeData& Data) const
+void UBallisfactionHealthComponent::OnNewHealth(const FOnAttributeChangeData& Data) const
 {
-	OnOutOfHealth.Broadcast(Data.NewValue);
+	if (Data.NewValue <= 0.f)
+	{
+		OnOutOfHealth.Broadcast();
+	}
+	OnCurrentHealthChanged.Broadcast(Data.NewValue);
+}
+
+void UBallisfactionHealthComponent::OnNewMaxHealth(const FOnAttributeChangeData& Data) const
+{
+	OnMaxHealthChanged.Broadcast(Data.NewValue);
 }
 
 void UBallisfactionHealthComponent::InitASCHealth()
@@ -49,7 +58,8 @@ void UBallisfactionHealthComponent::InitASCHealth()
 		return;
 	}
 
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(HealthSet->GetHealthPointsAttribute()).AddUObject(this, &ThisClass::OnHealthChanged);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(HealthSet->GetHealthPointsAttribute()).AddUObject(this, &ThisClass::OnNewHealth);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(HealthSet->GetMaxHealthPointsAttribute()).AddUObject(this, &ThisClass::OnNewMaxHealth);
 }
 
 
