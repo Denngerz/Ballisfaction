@@ -78,9 +78,9 @@ DerivedDataCache/*
 .idea/*
 
 # Indexing and IDE files (keep these for team consistency)
-!.vscode/
-!.clangd
-!.clang-format
+.vscode/
+.clangd
+.clang-format
 
 # But exclude user-specific IDE settings
 .vscode/settings.json.user
