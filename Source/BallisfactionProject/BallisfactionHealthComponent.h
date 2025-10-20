@@ -49,6 +49,6 @@ protected:
 	void OnNewHealth(const FOnAttributeChangeData& Data) const;
 
 	void OnNewMaxHealth(const FOnAttributeChangeData& Data) const;
-	
+
 	void InitASCHealth();
 };
