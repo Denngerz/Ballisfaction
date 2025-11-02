@@ -3,8 +3,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
-
 #include "BallisfactionPlayerState.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnScoreChanged, float, NewValue);
 
 UCLASS()
 class BALLISFACTIONPROJECT_API ABallisfactionPlayerState : public APlayerState
@@ -21,8 +22,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetCurrentScore() const;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnScoreChanged OnScoreChanged;
+
 private:
-	UPROPERTY(VisibleAnywhere, Blueprintable)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Meta = (AllowPrivateAccess = "true"))
 	float CurrentScore;
 	
 };
