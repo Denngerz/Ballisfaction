@@ -11,6 +11,8 @@ void ABallisfactionPlayerState::BeginPlay()
 void ABallisfactionPlayerState::AddPointsToScore(float ScoredAmount)
 {
 	CurrentScore += ScoredAmount;
+	
+	OnScoreChanged.Broadcast(CurrentScore);
 }
 
 float ABallisfactionPlayerState::GetCurrentScore() const
