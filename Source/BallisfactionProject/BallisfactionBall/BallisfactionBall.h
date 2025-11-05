@@ -18,15 +18,14 @@ public:
 
 	virtual float GetPotentialDamage_Implementation();
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 	void DestroySelf();
 
-	virtual void DestroySelf_Implementation();
+	UFUNCTION(BlueprintCallable)
+	float GetPointsOnGoal();
 	
 protected:
-	void BeginPlay() override;
-
-	void Destroyed() override;
+	virtual void BeginPlay() override;
 	
 	FTimerHandle MyTimerHandle;
 
@@ -42,4 +41,7 @@ private:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Meta = (AllowPrivateAccess = "true"))
 	float VelocityDamageDivisor;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Meta = (AllowPrivateAccess = "true"))
+	float PointsOnGoal;
 };

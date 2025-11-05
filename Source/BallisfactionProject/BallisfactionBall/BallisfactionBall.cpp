@@ -1,7 +1,7 @@
 
 #include "BallisfactionBall.h"
 
-ABallisfactionBall::ABallisfactionBall(): VelocityDamageDivisor(50.0f), TimeWithoutContact(5)
+ABallisfactionBall::ABallisfactionBall(): VelocityDamageDivisor(50.0f), TimeWithoutContact(5), PointsOnGoal(1)
 {
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("StaticMesh");
 	RootComponent = StaticMesh;
@@ -13,11 +13,6 @@ float ABallisfactionBall::GetPotentialDamage_Implementation()
 	return (GetVelocity().Length() / (VelocityDamageDivisor));
 }
 
-void ABallisfactionBall::DestroySelf_Implementation()
-{
-	Destroy();
-}
-
 void ABallisfactionBall::BeginPlay()
 {
 	Super::BeginPlay();
@@ -25,11 +20,14 @@ void ABallisfactionBall::BeginPlay()
 	UpdateContactTimer();
 }
 
-void ABallisfactionBall::Destroyed()
+void ABallisfactionBall::DestroySelf()
 {
-	Super::Destroyed();
+	Destroy();
+}
 
-	DestroySelf();
+float ABallisfactionBall::GetPointsOnGoal()
+{
+	return PointsOnGoal;
 }
 
 void ABallisfactionBall::UpdateContactTimer()
@@ -38,8 +36,8 @@ void ABallisfactionBall::UpdateContactTimer()
 		MyTimerHandle,
 		this,
 		&ABallisfactionBall::DestroySelf,
-		1.0f,
-		true,
+		0.1f,
+		false,
 		TimeWithoutContact
 	);
 }
