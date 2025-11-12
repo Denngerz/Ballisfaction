@@ -30,10 +30,13 @@ protected:
 	FTimerHandle MyTimerHandle;
 
 	UFUNCTION(BlueprintCallable)
-	void UpdateContactTimer();
+	void StartDeathTimer();
+
+	UFUNCTION(BlueprintCallable)
+	void PauseDeathTimer();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float TimeWithoutContact;
+	float TimeBeforeDeath;
 
 private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Meta = (AllowPrivateAccess = "true"))
