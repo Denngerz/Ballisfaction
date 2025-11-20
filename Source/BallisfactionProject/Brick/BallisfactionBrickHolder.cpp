@@ -1,25 +1,23 @@
 
 #include "BallisfactionBrickHolder.h"
 #include "BallisfactionBrick.h"
+#include "BallisfactionProject/Subsystems/WorldSubsystems/SpawnSubsystem/BrickSpawnSubsystem/BallisfactionBrickSpawnSubsystem.h"
 
-void ABallisfactionBrickHolder::SetBrickClass(TSubclassOf<ABallisfactionBrick> NewBrickClass)
+void ABallisfactionBrickHolder::UpdateBrickClass()
 {
-	BrickClass = NewBrickClass;
-}
-
-void ABallisfactionBrickHolder::BeginPlay()
-{
-	Super::BeginPlay();
-
-	SpawnBrick();
+	UBallisfactionBrickSpawnSubsystem* Subsystem = GetWorld()->GetSubsystem<UBallisfactionBrickSpawnSubsystem>();
+	BrickClass = Subsystem->GetBrickClassToSpawn();
 }
 
 void ABallisfactionBrickHolder::SpawnBrick()
 {
+	UpdateBrickClass();
+	
 	if (IsValid(Brick))
 	{
 		Brick->Destroy();
 		Brick = nullptr;
+		HandleBrickDestroyed();
 	}
 	
 	UWorld* World = GetWorld();

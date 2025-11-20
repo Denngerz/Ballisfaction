@@ -1,8 +1,7 @@
 
 #include "BallisfactionStaminaComponent.h"
-
 #include "AbilitySystemInterface.h"
-#include "AbilitySystem/Atributes/StaminaSet.h"
+#include "../AbilitySystem/Atributes/StaminaSet.h"
 
 UBallisfactionStaminaComponent::UBallisfactionStaminaComponent()
 	: AbilitySystemComponent (nullptr)

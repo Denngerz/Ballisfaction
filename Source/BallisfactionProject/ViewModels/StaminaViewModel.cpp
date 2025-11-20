@@ -1,6 +1,6 @@
 
 #include "StaminaViewModel.h"
-#include "BallisfactionProject/BallisfactionStaminaComponent.h"
+#include "BallisfactionProject/Components/BallisfactionStaminaComponent.h"
 
 void UStaminaViewModel::Initialize(UBallisfactionStaminaComponent* InStaminaComponent)
 {

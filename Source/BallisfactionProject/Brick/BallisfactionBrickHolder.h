@@ -14,11 +14,9 @@ class BALLISFACTIONPROJECT_API ABallisfactionBrickHolder : public AActor
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void SetBrickClass(TSubclassOf<ABallisfactionBrick> NewBrickClass);
+	void UpdateBrickClass();
 
 protected:
-	virtual void BeginPlay() override;
-
 	UFUNCTION(BlueprintCallable)
 	void SpawnBrick();
 
@@ -29,5 +27,6 @@ private:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<ABallisfactionBrick> BrickClass;
 
+	UPROPERTY(VisibleInstanceOnly, Category="Brick")
 	TObjectPtr<ABallisfactionBrick> Brick;
 };
