@@ -1,7 +1,7 @@
-
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BallisfactionProject/Structures/SpawnDataTableEntry.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "BallisfactionBallsSpawnSubsystem.generated.h"
 
@@ -36,17 +36,18 @@ public:
 	void SetTierPickChance(float NewTierPickChance, ETierType TierType);
 
 	UFUNCTION(BlueprintCallable)
-	TSubclassOf<ABallisfactionBall> GetBrickClassToSpawn();
+	TSubclassOf<ABallisfactionBall> GetBallClassToSpawn();
 
 private:
 	UPROPERTY()
 	UDataTable* TiersDataTable;
 
-	TArray<FSpawnDataTableEntry*> TiersRows;
+	UPROPERTY()
+	TArray<FSpawnDataTableEntry> RuntimeTiers;
 
 	float CalculateOverallChanceForTierDT(const UDataTable* TierDT);
 
 	UDataTable* GetRandomTier();
 
-	FBallTier* GetRandomRowFromTier(UDataTable* TierDT);
+	FBallTier* GetRandomRowFromTier(const UDataTable* TierDT);
 };

@@ -43,13 +43,12 @@ private:
 	UPROPERTY()
 	UDataTable* TiersDataTable;
 
-	TArray<FSpawnDataTableEntry*> TiersRows;
+	UPROPERTY()
+	TArray<FSpawnDataTableEntry> RuntimeTiers;
 
 	float CalculateOverallChanceForTierDT(const UDataTable* TierDT);
 
 	UDataTable* GetRandomTier();
 
-	FBrickTier* GetRandomRowFromTier(UDataTable* TierDT);
-
-	UDataTable* DuplicateDataTable(UDataTable* SourceDT);
+	FBrickTier* GetRandomRowFromTier(const UDataTable* TierDT);
 };

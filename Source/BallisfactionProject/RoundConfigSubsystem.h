@@ -5,6 +5,8 @@
 #include "Subsystems/WorldSubsystem.h"
 #include "RoundConfigSubsystem.generated.h"
 
+struct FSpawnDataTableEntry;
+
 UCLASS()
 class BALLISFACTIONPROJECT_API URoundConfigSubsystem : public UWorldSubsystem
 {
@@ -23,19 +25,11 @@ protected:
 	UDataTable* BrickTierDefaultSpawnChances;
 
 private:
-	// Ball pick chances
-	float LegendaryBallPickChance;
+	UPROPERTY()
+	TArray<FSpawnDataTableEntry> BricksRuntimeTiers;
 	
-	float RareBallPickChance;
-	
-	float CommonBallPickChance;
-
-	// Brick pick chance
-	float LegendaryBrickPickChance;
-	
-	float RareBrickPickChance;
-	
-	float CommonBrickPickChance;
+	UPROPERTY()
+	TArray<FSpawnDataTableEntry> BallsRuntimeTiers;
 
 	// Internal helpers
 	void ConfigureNewBallSpawnChances(int32 RoundNumber);

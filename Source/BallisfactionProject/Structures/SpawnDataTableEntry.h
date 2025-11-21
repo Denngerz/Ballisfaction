@@ -30,6 +30,9 @@ struct FSpawnDataTableEntry : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float TierPickChance = 0.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float RoundModificator = 0.0f;
+
 	UPROPERTY(VisibleAnywhere)
 	float TotalWeight = 0.0f;
 };

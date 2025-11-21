@@ -18,56 +18,54 @@ void URoundConfigSubsystem::ConfigureNewSpawnChancesInfo(int32 RoundNumber)
 
 void URoundConfigSubsystem::ConfigureNewBallSpawnChances(int32 RoundNumber)
 {
-	LegendaryBallPickChance += RoundNumber * 2.0f;
-	RareBallPickChance += RoundNumber * 1.5f;
-	CommonBallPickChance += RoundNumber * 1.0f;
+	for (auto& Tier : BallsRuntimeTiers)
+	{
+		Tier.TierPickChance += RoundNumber * Tier.RoundModificator;
+	}
 
 	TransferBallsSpawnChances();
 }
 
 void URoundConfigSubsystem::ConfigureNewBrickSpawnChances(const int32 RoundNumber)
 {
-	LegendaryBrickPickChance += RoundNumber * 2.0f;
-	RareBrickPickChance += RoundNumber * 1.5f;
-	CommonBrickPickChance += RoundNumber * 1.0f;
+	for (auto& Tier : BricksRuntimeTiers)
+	{
+		Tier.TierPickChance += RoundNumber * Tier.RoundModificator;
+	}
 	
 	TransferBricksSpawnChances();
 }
 
 void URoundConfigSubsystem::InitializeBallsSpawnChances(UDataTable* BallTierSpawnChances)
 {
-	BallTierDefaultSpawnChances = BallTierSpawnChances;
+	TArray<FSpawnDataTableEntry*> BallTiersRows;
+	BallTierSpawnChances->GetAllRows(TEXT("BallsTierSpawn"), BallTiersRows);
 
-	TArray<FSpawnDataTableEntry*> Rows;
-	BallTierDefaultSpawnChances->GetAllRows(TEXT("BallsTierSpawn"), Rows);
-
-	if (Rows.Num() < 3)
+	int RowsAmmount = BallTiersRows.Num();
+	BallsRuntimeTiers.SetNum(RowsAmmount);
+	
+	for (int i = 0; i < RowsAmmount; ++i)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Ball Tier Spawn DT MUST contain 3 rows."));
-		return;
+		BallsRuntimeTiers[i].TierType         = BallTiersRows[i]->TierType;
+		BallsRuntimeTiers[i].TierPickChance   = BallTiersRows[i]->TierPickChance;
+		BallsRuntimeTiers[i].RoundModificator = BallTiersRows[i]->RoundModificator;
 	}
-
-	LegendaryBallPickChance = Rows[0]->TierPickChance;
-	RareBallPickChance = Rows[1]->TierPickChance;
-	CommonBallPickChance = Rows[2]->TierPickChance;
 }
 
 void URoundConfigSubsystem::InitializeBricksSpawnChances(UDataTable* BrickTierSpawnChances)
 {
-	BrickTierDefaultSpawnChances = BrickTierSpawnChances;
+	TArray<FSpawnDataTableEntry*> BrickTiersRows;
+	BrickTierSpawnChances->GetAllRows(TEXT("BricksTierSpawn"), BrickTiersRows);
 
-	TArray<FSpawnDataTableEntry*> Rows;
-	BrickTierDefaultSpawnChances->GetAllRows(TEXT("BricksTierSpawn"), Rows);
-
-	if (Rows.Num() < 3)
+	int RowsAmmount = BrickTiersRows.Num();
+	BricksRuntimeTiers.SetNum(RowsAmmount);
+	
+	for (int i = 0; i < RowsAmmount; ++i)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Brick Tier Spawn DT MUST contain 3 rows."));
-		return;
+		BricksRuntimeTiers[i].TierType         = BrickTiersRows[i]->TierType;
+		BricksRuntimeTiers[i].TierPickChance   = BrickTiersRows[i]->TierPickChance;
+		BricksRuntimeTiers[i].RoundModificator = BrickTiersRows[i]->RoundModificator;
 	}
-
-	LegendaryBrickPickChance = Rows[0]->TierPickChance;
-	RareBrickPickChance = Rows[1]->TierPickChance;
-	CommonBrickPickChance = Rows[2]->TierPickChance;
 }
 
 void URoundConfigSubsystem::TransferBallsSpawnChances()
@@ -75,9 +73,10 @@ void URoundConfigSubsystem::TransferBallsSpawnChances()
 	UBallisfactionBallsSpawnSubsystem* BallsSpawnSubsystem = GetWorld()->GetSubsystem<UBallisfactionBallsSpawnSubsystem>();
 	if (BallsSpawnSubsystem)
 	{
-		BallsSpawnSubsystem->SetTierPickChance(LegendaryBallPickChance, ETierType::Legendary);
-		BallsSpawnSubsystem->SetTierPickChance(RareBallPickChance, ETierType::Rare);
-		BallsSpawnSubsystem->SetTierPickChance(CommonBallPickChance, ETierType::Common);
+		for (auto Tier : BallsRuntimeTiers)
+		{
+			BallsSpawnSubsystem->SetTierPickChance(Tier.TierPickChance, Tier.TierType);
+		}
 	}
 }
 
@@ -86,9 +85,10 @@ void URoundConfigSubsystem::TransferBricksSpawnChances()
 	UBallisfactionBrickSpawnSubsystem* BrickSpawnSubsystem = GetWorld()->GetSubsystem<UBallisfactionBrickSpawnSubsystem>();
 	if (BrickSpawnSubsystem)
 	{
-		BrickSpawnSubsystem->SetTierPickChance(LegendaryBrickPickChance, ETierType::Legendary);
-		BrickSpawnSubsystem->SetTierPickChance(RareBrickPickChance, ETierType::Rare);
-		BrickSpawnSubsystem->SetTierPickChance(CommonBrickPickChance, ETierType::Common);
+		for (auto Tier : BricksRuntimeTiers)
+		{
+			BrickSpawnSubsystem->SetTierPickChance(Tier.TierPickChance, Tier.TierType);
+		}
 	}
 }
 

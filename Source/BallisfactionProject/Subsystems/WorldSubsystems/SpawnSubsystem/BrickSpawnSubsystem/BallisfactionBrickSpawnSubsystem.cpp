@@ -6,11 +6,18 @@ void UBallisfactionBrickSpawnSubsystem::UpdateTiersDataTableInfo(UDataTable* New
 {
 	TiersDataTable = NewTiersDataTable;
 	
-	TiersDataTable->GetAllRows(TEXT("Context"), TiersRows);
+	TArray<FSpawnDataTableEntry*> BricksTiersRows;
+	TiersDataTable->GetAllRows(TEXT("Context"), BricksTiersRows);
 
-	for (auto Row : TiersRows)
+	int TiersRowsAmount = BricksTiersRows.Num();
+	RuntimeTiers.SetNum(TiersRowsAmount);
+
+	for (int i = 0; i < TiersRowsAmount; ++i)
 	{
-		Row->TotalWeight = CalculateOverallChanceForTierDT(Row->DataTable);
+		RuntimeTiers[i].TierType       = BricksTiersRows[i]->TierType;
+		RuntimeTiers[i].TierPickChance = BricksTiersRows[i]->TierPickChance;
+		RuntimeTiers[i].DataTable      = BricksTiersRows[i]->DataTable;
+		RuntimeTiers[i].TotalWeight    = CalculateOverallChanceForTierDT(RuntimeTiers[i].DataTable);
 	}
 }
 
@@ -21,24 +28,24 @@ UDataTable* UBallisfactionBrickSpawnSubsystem::GetTiersDataTable()
 
 void UBallisfactionBrickSpawnSubsystem::SetTierPickChance(float NewTierPickChance, ETierType TierType)
 {
-	for (auto Row : TiersRows)
+	for (auto& BrickTier : RuntimeTiers)
 	{
-		if (Row->TierType == TierType)
+		if (BrickTier.TierType == TierType)
 		{
-			Row->TierPickChance = NewTierPickChance;
+			BrickTier.TierPickChance = NewTierPickChance;
 		}
 	}
 }
 
 TSubclassOf<ABallisfactionBrick> UBallisfactionBrickSpawnSubsystem::GetBrickClassToSpawn()
 {
-	UDataTable* TierDT = GetRandomTier();
+	const UDataTable* TierDT = GetRandomTier();
 	if (!TierDT)
 	{
 		return nullptr;
 	}
 	
-	FBrickTier* Row = GetRandomRowFromTier(TierDT);
+	const FBrickTier* Row = GetRandomRowFromTier(TierDT);
 	if (!Row)
 	{
 		return nullptr;
@@ -63,33 +70,32 @@ float UBallisfactionBrickSpawnSubsystem::CalculateOverallChanceForTierDT(const U
 
 UDataTable* UBallisfactionBrickSpawnSubsystem::GetRandomTier()
 {
-	if (TiersRows.IsEmpty())
+	if (RuntimeTiers.IsEmpty())
 	{
 		return nullptr;
 	}
 	
-	float OverallTierChance = 0;
-	for (auto Row : TiersRows)
+	float OverallWeight = 0;
+	for (const auto& BrickTier : RuntimeTiers)
 	{
-		OverallTierChance += Row->TierPickChance;
+		OverallWeight += BrickTier.TierPickChance;
 	}
 
-	float Roll = FMath::FRandRange(0.f, OverallTierChance);
+	float RandomRoll = FMath::FRandRange(0.f, OverallWeight);
 
-	for (auto Row : TiersRows)
+	for (const auto& BrickTier  : RuntimeTiers)
 	{
-	    if (Roll <= Row->TierPickChance)
-	    {
-	    	return Row->DataTable;
-	    }
-		
-	    Roll -= Row->TierPickChance;
-	}
+		if (RandomRoll <= BrickTier.TierPickChance)
+		{
+			return BrickTier.DataTable;
+		}
 
+		RandomRoll -= BrickTier.TierPickChance;
+	}
 	return nullptr;
 }
 
-FBrickTier* UBallisfactionBrickSpawnSubsystem::GetRandomRowFromTier(UDataTable* TierDT)
+FBrickTier* UBallisfactionBrickSpawnSubsystem::GetRandomRowFromTier(const UDataTable* TierDT)
 {
 	if (!TierDT) return nullptr;
 
@@ -97,14 +103,14 @@ FBrickTier* UBallisfactionBrickSpawnSubsystem::GetRandomRowFromTier(UDataTable* 
 	TierDT->GetAllRows(TEXT("Context"), Rows);
 
 	float TotalWeight = 0.f;
-	for (auto Row : Rows)
+	for (const auto& Row : Rows)
 	{
 		TotalWeight += Row->ChanceToBeSpawned;
 	}
 
 	float Roll = FMath::FRandRange(0.f, TotalWeight);
 
-	for (auto Row : Rows)
+	for (const auto& Row : Rows)
 	{
 		if (Roll < Row->ChanceToBeSpawned)
 		{
@@ -114,26 +120,4 @@ FBrickTier* UBallisfactionBrickSpawnSubsystem::GetRandomRowFromTier(UDataTable* 
 	}
 
 	return nullptr;
-}
-
-UDataTable* UBallisfactionBrickSpawnSubsystem::DuplicateDataTable(UDataTable* SourceDT)
-{
-	if (!SourceDT)
-		return nullptr;
-
-	// Create a new DataTable object
-	UDataTable* NewDT = NewObject<UDataTable>(this, UDataTable::StaticClass());
-
-	// Copy the row struct type
-	NewDT->RowStruct = SourceDT->RowStruct;
-
-	// Copy each row manually
-	for (const TPair<FName, uint8*>& Pair : SourceDT->GetRowMap())
-	{
-		uint8* NewRowData = (uint8*)FMemory::Malloc(NewDT->RowStruct->GetStructureSize());
-		NewDT->AddRow(Pair.Key, NewRowData);
-		NewDT->RowStruct->CopyScriptStruct(NewRowData, Pair.Value);
-	}
-
-	return NewDT;
 }
