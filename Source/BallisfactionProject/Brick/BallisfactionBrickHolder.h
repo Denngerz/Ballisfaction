@@ -23,10 +23,16 @@ protected:
 	UFUNCTION()
 	void HandleBrickDestroyed();
 
+	UFUNCTION(BlueprintCallable)
+	ABallisfactionBrick* GetBrick();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool ShouldRespawnBrick;
+
 private:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<ABallisfactionBrick> BrickClass;
-
+	
 	UPROPERTY(VisibleInstanceOnly, Category="Brick")
 	TObjectPtr<ABallisfactionBrick> Brick;
 };

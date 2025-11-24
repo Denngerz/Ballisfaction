@@ -10,7 +10,7 @@ ABallisfactionGameMode::ABallisfactionGameMode()
 	:MaxBallsOnMap(5),
 	BrickRowsAmount(1),
 	RoundNumber(0),
-	RoundTime(45),
+	RoundTime(5),
 	BrickTiersSpawnTable(nullptr),
 	BallsTiersSpawnTable(nullptr)
 {
@@ -102,6 +102,8 @@ void ABallisfactionGameMode::StartNextRound()
 	CalculateRoundTime();
 
 	StartRoundTimer();
+
+	OnRoundStart.Broadcast();
 }
 
 void ABallisfactionGameMode::StopRound()
@@ -127,7 +129,7 @@ void ABallisfactionGameMode::StartRoundTimer()
 	RoundTimerHandle,
 	this,
 	&ABallisfactionGameMode::StopRound,
-	0.f,
+	1.f,
 	false,
 	RoundTime
 );

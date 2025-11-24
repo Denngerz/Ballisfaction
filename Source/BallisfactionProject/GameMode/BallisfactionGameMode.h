@@ -6,6 +6,7 @@
 #include "BallisfactionGameMode.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnRoundEnd);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnRoundStart);
 
 UCLASS()
 class BALLISFACTIONPROJECT_API ABallisfactionGameMode : public AGameModeBase
@@ -17,6 +18,9 @@ class BALLISFACTIONPROJECT_API ABallisfactionGameMode : public AGameModeBase
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnRoundEnd OnRoundEnd;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnRoundStart OnRoundStart;
 	
 	UFUNCTION(BlueprintCallable)
 	int32 GetMaxBallsOnMap();

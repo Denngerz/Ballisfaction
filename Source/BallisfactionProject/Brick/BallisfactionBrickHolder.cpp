@@ -11,6 +11,8 @@ void ABallisfactionBrickHolder::UpdateBrickClass()
 
 void ABallisfactionBrickHolder::SpawnBrick()
 {
+	ShouldRespawnBrick = true;
+	
 	UpdateBrickClass();
 	
 	if (IsValid(Brick))
@@ -52,6 +54,14 @@ void ABallisfactionBrickHolder::SpawnBrick()
 
 void ABallisfactionBrickHolder::HandleBrickDestroyed()
 {
-	FTimerHandle Timer;
-	GetWorldTimerManager().SetTimer(Timer, this, &ABallisfactionBrickHolder::SpawnBrick, 1.0f, false, 1.0f);
+	if (ShouldRespawnBrick)
+	{
+		FTimerHandle Timer;
+		GetWorldTimerManager().SetTimer(Timer, this, &ABallisfactionBrickHolder::SpawnBrick, 1.0f, false, 1.0f);
+	}
+}
+
+ABallisfactionBrick* ABallisfactionBrickHolder::GetBrick()
+{
+	return Brick;
 }
