@@ -1,6 +1,6 @@
 
 #include "HealthViewModel.h"
-#include "BallisfactionProject/BallisfactionHealthComponent.h"
+#include "BallisfactionProject/Components/BallisfactionHealthComponent.h"
 
 void UHealthViewModel::Initialize(UBallisfactionHealthComponent* InHealthComponent)
 {

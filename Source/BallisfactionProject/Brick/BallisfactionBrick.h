@@ -9,6 +9,8 @@
 class UBallisfactionAbilitySystem;
 class UBallisfactionHealthComponent;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnBrickDestroyed);
+
 UCLASS()
 class BALLISFACTIONPROJECT_API ABallisfactionBrick : public AActor, public IAbilitySystemInterface
 {
@@ -16,6 +18,9 @@ class BALLISFACTIONPROJECT_API ABallisfactionBrick : public AActor, public IAbil
 	
 public:	
 	ABallisfactionBrick();
+
+	UPROPERTY(BlueprintCallable)
+	FOnBrickDestroyed OnBrickDestroyed;
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
@@ -25,5 +30,4 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ballisfaction|Health Component", Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UBallisfactionHealthComponent> HealthComponent;
-
 };

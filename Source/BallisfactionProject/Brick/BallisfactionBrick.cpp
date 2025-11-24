@@ -1,6 +1,6 @@
 
 #include "BallisfactionBrick.h"
-#include "BallisfactionProject/BallisfactionHealthComponent.h"
+#include "BallisfactionProject/Components/BallisfactionHealthComponent.h"
 #include "BallisfactionProject/AbilitySystem/BallisfactionAbilitySystem.h"
 
 ABallisfactionBrick::ABallisfactionBrick()

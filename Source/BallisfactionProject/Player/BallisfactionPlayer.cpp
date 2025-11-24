@@ -1,8 +1,8 @@
 
 #include "BallisfactionPlayer.h"
 #include "BallisfactionPlayerStats.h"
-#include "BallisfactionProject/BallisfactionHealthComponent.h"
-#include "BallisfactionProject/BallisfactionStaminaComponent.h"
+#include "BallisfactionProject/Components/BallisfactionHealthComponent.h"
+#include "BallisfactionProject/Components/BallisfactionStaminaComponent.h"
 #include "BallisfactionProject/AbilitySystem/BallisfactionAbilitySystem.h"
 #include "BallisfactionProject/AbilitySystem/Atributes/HealthSet.h"
 

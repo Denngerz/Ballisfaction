@@ -15,7 +15,7 @@ public:
 	TSubclassOf<UGameplayAbility> AbilityDefinition;
 
 	UPROPERTY(EditDefaultsOnly)
-	bool IsStatusAbility;
+	bool IsStatusAbility = false;
 
 	UPROPERTY(EditDefaultsOnly)
 	FText Description;

@@ -2,7 +2,7 @@
 #include "BallisfactionHealthComponent.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemInterface.h"
-#include "AbilitySystem/Atributes/HealthSet.h"
+#include "../AbilitySystem/Atributes/HealthSet.h"
 
 UBallisfactionHealthComponent::UBallisfactionHealthComponent()
 	: AbilitySystemComponent (nullptr)
