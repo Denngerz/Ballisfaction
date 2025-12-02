@@ -10,7 +10,7 @@ ABallisfactionGameMode::ABallisfactionGameMode()
 	:MaxBallsOnMap(5),
 	BrickRowsAmount(1),
 	RoundNumber(0),
-	RoundTime(5),
+	RoundTime(45),
 	BrickTiersSpawnTable(nullptr),
 	BallsTiersSpawnTable(nullptr)
 {

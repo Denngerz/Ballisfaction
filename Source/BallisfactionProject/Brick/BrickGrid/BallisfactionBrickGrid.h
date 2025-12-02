@@ -12,7 +12,7 @@ class BALLISFACTIONPROJECT_API ABallisfactionBrickGrid : public AActor
 
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void SpawnBricks(int32 Rows, int32 Columns);
+	void SpawnHolders(int32 Rows, int32 Columns);
 	
-	virtual void SpawnBricks_Implementation(int32 Rows, int32 Columns);
+	virtual void SpawnHolders_Implementation(int32 Rows, int32 Columns);
 };

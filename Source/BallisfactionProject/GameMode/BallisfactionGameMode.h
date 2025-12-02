@@ -12,10 +12,9 @@ UCLASS()
 class BALLISFACTIONPROJECT_API ABallisfactionGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-
-	ABallisfactionGameMode();
-
 public:
+	ABallisfactionGameMode();
+		
 	UPROPERTY(BlueprintAssignable)
 	FOnRoundEnd OnRoundEnd;
 
@@ -75,6 +74,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category="Round Info")
 	int32 BrickRowsAmount;
-	
+
+	UPROPERTY(EditDefaultsOnly, Category="Round Info")
 	float RoundTime;
 };

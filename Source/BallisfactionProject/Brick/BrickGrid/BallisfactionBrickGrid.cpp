@@ -1,7 +1,7 @@
 
 #include "BallisfactionBrickGrid.h"
 
-void ABallisfactionBrickGrid::SpawnBricks_Implementation(int32 Rows, int32 Columns)
+void ABallisfactionBrickGrid::SpawnHolders_Implementation(int32 Rows, int32 Columns)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Default SpawnBricks implementation"));
+	UE_LOG(LogTemp, Warning, TEXT("Default SpawnHolders implementation"));
 }
